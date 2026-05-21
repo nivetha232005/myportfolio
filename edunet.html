@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="gold">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edunet Foundation Internship — Nivetha S</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    [data-theme="gold"]     { --bg:#080705;--bg2:#0e0b08;--surface:#1a1510;--border:rgba(212,175,55,0.15);--border2:rgba(212,175,55,0.32);--accent:#d4af37;--accent2:#f5d76e;--text:#c8b99a;--text-light:#e8dcc8;--muted:#6b5a3e;--white:#faf6ee;--nav-bg:rgba(8,7,5,0.95);--card-bg:#12100a;--glow:0 0 30px rgba(212,175,55,0.12);--btn-text:#080705; }
+    [data-theme="ivory"]    { --bg:#faf8f4;--bg2:#f5f1eb;--surface:#ffffff;--border:rgba(92,51,23,0.12);--border2:rgba(92,51,23,0.28);--accent:#5c3317;--accent2:#7a4520;--text:#4a3020;--text-light:#2c1a0a;--muted:#9a7b5c;--white:#2c1a0a;--nav-bg:rgba(250,248,244,0.96);--card-bg:#ffffff;--glow:0 4px 24px rgba(92,51,23,0.10);--btn-text:#faf8f4; }
+    [data-theme="midnight"] { --bg:#020b18;--bg2:#041020;--surface:#0a1e35;--border:rgba(180,200,230,0.12);--border2:rgba(180,200,230,0.28);--accent:#a8c0d8;--accent2:#d0e4f4;--text:#8aabcb;--text-light:#c8dff0;--muted:#3a5a7a;--white:#e8f2fc;--nav-bg:rgba(2,11,24,0.95);--card-bg:#071828;--glow:0 0 30px rgba(100,160,220,0.12);--btn-text:#020b18; }
+    [data-theme="emerald"]  { --bg:#f7f9f6;--bg2:#eef4ee;--surface:#ffffff;--border:rgba(22,101,52,0.12);--border2:rgba(22,101,52,0.30);--accent:#166534;--accent2:#15803d;--text:#1a3a24;--text-light:#0f2418;--muted:#5a8c6a;--white:#0f2418;--nav-bg:rgba(247,249,246,0.96);--card-bg:#ffffff;--glow:0 4px 24px rgba(22,101,52,0.12);--btn-text:#ffffff; }
+    [data-theme="burgundy"] { --bg:#0d0507;--bg2:#130608;--surface:#1e0d0f;--border:rgba(198,130,140,0.15);--border2:rgba(198,130,140,0.32);--accent:#c6828c;--accent2:#e8a8b4;--text:#c0929a;--text-light:#e8d0d5;--muted:#6a3840;--white:#fdf0f2;--nav-bg:rgba(13,5,7,0.95);--card-bg:#160a0c;--glow:0 0 30px rgba(198,130,140,0.12);--btn-text:#0d0507; }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; transition:background .5s,color .5s; cursor:none; }
+
+    .cursor-dot { position:fixed;pointer-events:none;z-index:9999;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);transition:transform .08s; }
+    .cursor-ring { position:fixed;pointer-events:none;z-index:9998;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--accent);transform:translate(-50%,-50%);transition:all .14s;opacity:.6; }
+    .sparkle-particle { position:fixed;pointer-events:none;z-index:9997;border-radius:50%;animation:sparkleFloat 1.4s ease-out forwards; }
+    @keyframes sparkleFloat { 0%{opacity:1;transform:translate(-50%,-50%) scale(1)} 100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(0)} }
+
+    nav { position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background .5s,border-color .5s; }
+    .nav-logo { font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;font-style:italic;color:var(--accent);text-decoration:none; }
+    .nav-back { font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s; }
+    .nav-back:hover { color:var(--accent); }
+
+    .page-wrap { max-width:860px;margin:0 auto;padding:8rem 2rem 5rem; }
+
+    .back-tag { font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem; }
+    .back-tag::before { content:'';width:24px;height:1px;background:var(--accent);display:inline-block; }
+
+    h1.page-title { font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:400;color:var(--white);letter-spacing:-.02em;line-height:1.05;margin-bottom:.6rem; }
+    h1.page-title em { font-style:italic;color:var(--accent); }
+
+    .meta-row { display:flex;gap:2rem;flex-wrap:wrap;margin:1.2rem 0 2.5rem;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:1.5rem; }
+    .meta-item span { color:var(--text-light);display:block;font-size:.8rem;margin-top:.2rem;text-transform:none;letter-spacing:.02em; }
+
+    .section-block { margin-bottom:2.5rem; }
+
+    h2.block-title { font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--white);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem; }
+    h2.block-title::before { content:'';width:20px;height:2px;background:var(--accent);border-radius:2px; }
+
+    p.block-body { font-size:.92rem;line-height:1.82;color:var(--text);font-weight:300; }
+
+    .highlight-card { background:var(--card-bg);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:8px;padding:1.5rem 1.8rem;transition:all .3s; }
+    .highlight-card:hover { box-shadow:var(--glow);transform:translateY(-2px); }
+    .hl-title { font-size:.92rem;font-weight:600;color:var(--text-light);margin-bottom:.5rem; }
+    .hl-body { font-size:.86rem;line-height:1.72;color:var(--muted); }
+
+    .tech-pills { display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem; }
+    .tech-pill { font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .7rem;border:1px solid var(--border2);color:var(--muted);border-radius:3px; }
+
+    .proj-live { display:inline-flex;align-items:center;gap:.45rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid var(--border2);padding:.35rem .9rem;border-radius:5px;transition:all .25s;cursor:none;margin-top:1rem; }
+    .proj-live:hover { background:var(--accent);color:var(--btn-text);border-color:var(--accent); }
+
+    .theme-btn { position:fixed;bottom:2rem;right:2rem;z-index:500;background:var(--accent);color:var(--btn-text);border:none;border-radius:50px;padding:.65rem 1.3rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;cursor:none;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,0.3);transition:all .3s;display:flex;align-items:center;gap:.5rem; }
+    .theme-btn:hover { transform:translateY(-2px); }
+    .theme-panel { position:fixed;bottom:5rem;right:2rem;z-index:499;background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:.8rem;width:200px;display:none;flex-direction:column;gap:.4rem;box-shadow:0 8px 40px rgba(0,0,0,0.4); }
+    .theme-panel.open { display:flex; }
+    .t-opt { display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:8px;cursor:none;transition:all .2s;border:1px solid transparent; }
+    .t-opt:hover,.t-opt.active { background:var(--bg2);border-color:var(--border); }
+    .t-swatch { width:18px;height:18px;border-radius:50%;flex-shrink:0; }
+    .swatch-gold{background:linear-gradient(135deg,#080705,#d4af37)} .swatch-ivory{background:linear-gradient(135deg,#faf8f4,#5c3317)} .swatch-midnight{background:linear-gradient(135deg,#020b18,#a8c0d8)} .swatch-emerald{background:linear-gradient(135deg,#166534,#f7f9f6)} .swatch-burgundy{background:linear-gradient(135deg,#0d0507,#c6828c)}
+    .t-name { font-family:'Outfit',sans-serif;font-size:.78rem;color:var(--text-light); }
+
+    .reveal { opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1;transform:translateY(0); }
+    .reveal-d1{transition-delay:.08s} .reveal-d2{transition-delay:.16s} .reveal-d3{transition-delay:.24s}
+  </style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<button class="theme-btn" id="themeBtn" onclick="togglePanel()">🎨 Themes</button>
+<div class="theme-panel" id="themePanel">
+  <div class="t-opt active" onclick="setTheme('gold')" id="opt-gold"><div class="t-swatch swatch-gold"></div><span class="t-name">Black &amp; Gold</span></div>
+  <div class="t-opt" onclick="setTheme('ivory')" id="opt-ivory"><div class="t-swatch swatch-ivory"></div><span class="t-name">Ivory &amp; Chocolate</span></div>
+  <div class="t-opt" onclick="setTheme('midnight')" id="opt-midnight"><div class="t-swatch swatch-midnight"></div><span class="t-name">Midnight Blue</span></div>
+  <div class="t-opt" onclick="setTheme('emerald')" id="opt-emerald"><div class="t-swatch swatch-emerald"></div><span class="t-name">Emerald &amp; Cream</span></div>
+  <div class="t-opt" onclick="setTheme('burgundy')" id="opt-burgundy"><div class="t-swatch swatch-burgundy"></div><span class="t-name">Burgundy &amp; Rose</span></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Nivetha S.</a>
+  <a href="index.html" class="nav-back">← Back to Portfolio</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="back-tag reveal">Professional Experience</div>
+
+  <h1 class="page-title reveal reveal-d1">
+    Edunet Foundation —<br><em>AI &amp; Cloud Intern</em>
+  </h1>
+
+  <div class="meta-row reveal reveal-d2">
+    <div>Type <span>Virtual Internship</span></div>
+    <div>Duration <span>Sep 2025 – Oct 2025</span></div>
+    <div>Focus <span>AI · Cloud Technology</span></div>
+  </div>
+
+  <div class="section-block reveal reveal-d2">
+    <h2 class="block-title">About the Internship</h2>
+    <p class="block-body">
+      Engaged in a structured virtual internship exploring the convergence of Artificial Intelligence
+      and Cloud Technologies. Participated in expert-led sessions covering machine learning foundations,
+      cloud architectures, and real-world deployment strategies — culminating in an independently
+      developed AI-powered project.
+    </p>
+  </div>
+
+  <div class="section-block reveal reveal-d3">
+    <h2 class="block-title">Flagship Project</h2>
+    <div class="highlight-card">
+      <div class="hl-title">Mental Health Chatbot</div>
+      <p class="hl-body">
+        Conceptualised and developed an empathetic AI chatbot integrated with the
+        <strong style="color:var(--text-light);">Google Gemini API</strong> — capable of delivering
+        context-aware, emotionally sensitive responses to users seeking mental wellness support.
+        The system incorporates natural language understanding to provide personalised guidance
+        in a safe, non-judgmental conversational environment.
+      </p>
+      <div class="tech-pills">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">Google Gemini API</span>
+        <span class="tech-pill">NLP</span>
+        <span class="tech-pill">Cloud Deployment</span>
+      </div>
+      <a href="https://serenityyourcompanion.netlify.app/" target="_blank" class="proj-live">↗ View Live</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+  let lastS=0;
+  document.addEventListener('mousemove',e=>{
+    dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+    setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},70);
+    const now=Date.now();if(now-lastS>60){lastS=now;spawnS(e.clientX,e.clientY);}
+  });
+  function spawnS(x,y){const t=document.documentElement.getAttribute('data-theme');const c={gold:['#f5d76e','#d4af37'],ivory:['#c8864a','#a06030'],midnight:['#c8dff0','#90b8d8'],emerald:['#4ade80','#22c55e'],burgundy:['#e8a8b4','#c6828c']}[t]||['#f5d76e','#d4af37'];const col=c[Math.floor(Math.random()*c.length)];const sz=3+Math.random()*5;const a=Math.random()*Math.PI*2;const d=15+Math.random()*35;const el=document.createElement('div');el.className='sparkle-particle';el.style.cssText=`left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;background:${col};box-shadow:0 0 ${sz*2}px ${col};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-18}px;animation-duration:${1000+Math.random()*600}ms;`;document.body.appendChild(el);setTimeout(()=>el.remove(),1600);}
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(2.5)';});el.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%) scale(1)';});});
+  const themes=['gold','ivory','midnight','emerald','burgundy'];let pOpen=false;
+  function togglePanel(){const p=document.getElementById('themePanel');pOpen=!pOpen;p.classList.toggle('open',pOpen);}
+  function setTheme(n){document.documentElement.setAttribute('data-theme',n);localStorage.setItem('portfolio-theme',n);themes.forEach(t=>document.getElementById('opt-'+t)?.classList.remove('active'));document.getElementById('opt-'+n)?.classList.add('active');setTimeout(()=>{document.getElementById('themePanel').classList.remove('open');pOpen=false;},300);}
+  const saved=localStorage.getItem('portfolio-theme');if(saved&&themes.includes(saved))setTheme(saved);
+  document.addEventListener('click',e=>{if(!e.target.closest('#themePanel')&&!e.target.closest('#themeBtn')&&pOpen){document.getElementById('themePanel').classList.remove('open');pOpen=false;}});
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

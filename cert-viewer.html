@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificate Viewer — Nivetha S</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #080705;
+      --surface:   #1a1510;
+      --border:    rgba(212,175,55,0.15);
+      --border2:   rgba(212,175,55,0.38);
+      --accent:    #d4af37;
+      --accent2:   #f5d76e;
+      --text:      #c8b99a;
+      --text-light:#e8dcc8;
+      --muted:     #6b5a3e;
+      --glow:      0 0 28px rgba(212,175,55,0.14);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,7,5,0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: .85rem 2.5rem;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 1.2rem; }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: 'DM Mono', monospace; font-size: .65rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); text-decoration: none;
+      padding: .4rem .85rem;
+      border: 1px solid var(--border2); border-radius: 4px;
+      transition: all .22s ease; white-space: nowrap;
+    }
+    .back-btn:hover { background: rgba(212,175,55,0.08); box-shadow: var(--glow); }
+
+    .cert-title-bar {
+      display: flex; flex-direction: column;
+    }
+    .cert-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .cert-name-display {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 400;
+      color: var(--text-light); line-height: 1.2;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: .7rem; }
+
+    .action-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: 'DM Mono', monospace; font-size: .62rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; padding: .4rem .85rem;
+      border-radius: 4px; transition: all .22s ease;
+      white-space: nowrap; cursor: pointer; border: none;
+    }
+    .btn-download {
+      background: var(--accent); color: #080705;
+      font-weight: 500;
+    }
+    .btn-download:hover { background: var(--accent2); box-shadow: var(--glow); }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--accent); letter-spacing: .06em;
+      white-space: nowrap;
+    }
+
+    /* ── VIEWER AREA ── */
+    .viewer-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 2.5rem 2rem;
+      gap: 1rem;
+    }
+
+    .viewer-frame-wrap {
+      flex: 1;
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--glow), 0 8px 40px rgba(0,0,0,0.5);
+      background: var(--surface);
+      position: relative;
+      min-height: 0;
+    }
+
+    #pdf-frame {
+      width: 100%; height: 100%;
+      border: none; display: block;
+      min-height: 70vh;
+    }
+
+    /* fallback message */
+    .fallback {
+      display: none;
+      position: absolute; inset: 0;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.2rem; padding: 2rem; text-align: center;
+    }
+    .fallback.show { display: flex; }
+    .fallback-icon { font-size: 3rem; opacity: .4; }
+    .fallback-msg {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; color: var(--text-light);
+    }
+    .fallback-sub { font-size: .82rem; color: var(--muted); max-width: 340px; line-height: 1.7; }
+    .fallback-download {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: 'DM Mono', monospace; font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: #080705; background: var(--accent);
+      padding: .55rem 1.2rem; border-radius: 4px;
+      text-decoration: none; transition: all .22s ease;
+    }
+    .fallback-download:hover { background: var(--accent2); box-shadow: var(--glow); }
+
+    /* ── BOTTOM META ── */
+    .viewer-meta {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: .6rem;
+      padding: 0 .2rem;
+    }
+    .meta-path {
+      font-family: 'DM Mono', monospace; font-size: .58rem;
+      letter-spacing: .08em; color: var(--muted);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      max-width: 60%;
+    }
+    .meta-tag {
+      font-family: 'DM Mono', monospace; font-size: .58rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); opacity: .6;
+    }
+
+    /* ── ERROR STATE ── */
+    .error-page {
+      display: none;
+      flex: 1; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem; padding: 3rem; text-align: center;
+    }
+    .error-page.show { display: flex; }
+    .error-icon { font-size: 3.5rem; opacity: .35; }
+    .error-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--text-light);
+    }
+    .error-sub { font-size: .85rem; color: var(--muted); max-width: 360px; line-height: 1.7; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .viewer-wrap { animation: fadeIn .5s ease both; }
+
+    @media (max-width: 640px) {
+      .top-bar { padding: .75rem 1.2rem; }
+      .viewer-wrap { padding: 1rem 1.2rem 1.5rem; }
+      .logo { display: none; }
+      .cert-name-display { font-size: .9rem; }
+      #pdf-frame { min-height: 60vh; }
+      .meta-path { max-width: 100%; }
+    }
+    html {
+  scroll-behavior: smooth;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="top-bar">
+    <div class="nav-left">
+      <a href="#" class="back-btn" id="backBtn">← Back</a>
+      <div class="cert-title-bar">
+        <span class="cert-label">Certificate</span>
+        <span class="cert-name-display" id="cert-title">Loading…</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a id="download-btn" href="#" download class="action-btn btn-download">
+        ↓ Download
+      </a>
+      <span class="logo">Nivetha S</span>
+    </div>
+  </nav>
+
+  <!-- Viewer -->
+  <div class="viewer-wrap" id="viewer-wrap">
+    <div class="viewer-frame-wrap">
+      <iframe id="pdf-frame" title="Certificate PDF"></iframe>
+      <div class="fallback" id="fallback">
+        <div class="fallback-icon">📄</div>
+        <div class="fallback-msg">Can't preview in browser</div>
+        <div class="fallback-sub">Your browser may not support inline PDF viewing. Download the file to view it.</div>
+        <a id="fallback-download" href="#" download class="fallback-download">↓ Download Certificate</a>
+      </div>
+    </div>
+    <div class="viewer-meta">
+      <span class="meta-path" id="meta-path"></span>
+      <span class="meta-tag">PDF · Nivetha S</span>
+    </div>
+  </div>
+
+  <!-- Error state (no PDF param) -->
+  <div class="error-page" id="error-page">
+    <div class="error-icon">⚠️</div>
+    <div class="error-title">No certificate specified</div>
+    <div class="error-sub">No PDF was passed in the URL. Go back to the portfolio and click a certificate link.</div>
+    <a href="index.html" class="back-btn" style="margin-top:.5rem">← Back to Portfolio</a>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const pdf = params.get('pdf') || params.get('file');
+  const from = params.get('from');
+
+  const backBtn = document.getElementById('backBtn');
+
+  if (backBtn) {
+    backBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      if (from && from.toLowerCase() === "infosys") {
+        window.location.href = "infosys_certificates.html";
+      } else {
+        window.location.href = "index.html#certifications";
+      }
+    });
+  }
+
+  if (!pdf) {
+    document.getElementById('viewer-wrap').style.display = 'none';
+    document.getElementById('error-page').classList.add('show');
+  } else {
+    const filename = decodeURIComponent(pdf.split('/').pop().replace('.pdf', ''));
+    document.title = filename + ' — Nivetha S';
+    document.getElementById('cert-title').textContent = filename;
+    document.getElementById('meta-path').textContent = decodeURIComponent(pdf);
+
+    const frame = document.getElementById('pdf-frame');
+    frame.src = pdf;
+
+    document.getElementById('download-btn').href = pdf;
+    document.getElementById('download-btn').setAttribute('download', filename + '.pdf');
+
+    document.getElementById('fallback-download').href = pdf;
+    document.getElementById('fallback-download').setAttribute('download', filename + '.pdf');
+
+    frame.onerror = () => {
+      document.getElementById('fallback').classList.add('show');
+    };
+
+    frame.onload = () => {
+      try {
+        if (!frame.contentDocument && !frame.contentWindow) {
+          document.getElementById('fallback').classList.add('show');
+        }
+      } catch(e) {
+        // Cross-origin is fine
+      }
+    };
+  }
+</script>
+</body>
+</html>
